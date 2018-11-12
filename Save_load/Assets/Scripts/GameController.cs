@@ -18,11 +18,13 @@ public class GameController : MonoBehaviour {
         if (control == null) {
             DontDestroyOnLoad(gameObject);
             control = this;
-            try {
+            try
+            {
                 LoadGame();
 
-            } catch {
-                print("Unable to load game. Game file might not exist.");
+            }
+            catch
+            {
                 SetDefaultValue();
             }
             
@@ -39,7 +41,7 @@ public class GameController : MonoBehaviour {
     private void OnGUI() {
         GUIStyle style = new GUIStyle();
         style.fontSize = 56;
-        print(attack.ToString());
+        
         GUI.Label(new Rect(10, 160, 100, 30), "Attack : " + attack.ToString(), style);
         GUI.Label(new Rect(10, 110, 100, 30), "Defense : " + defense.ToString(), style);
         GUI.Label(new Rect(10, 60, 100, 30), "Health : " + health.ToString(), style);
@@ -66,7 +68,6 @@ public class GameController : MonoBehaviour {
         playerData.attack = attack;
         playerData.defense = defense;
         playerData.health = health;
-
         bf.Serialize(file, playerData);
         file.Close();
     }
@@ -74,7 +75,7 @@ public class GameController : MonoBehaviour {
     public void LoadGame() {
         BinaryFormatter bf = new BinaryFormatter();
         if(!File.Exists(Application.persistentDataPath + "/gameInfo.dat")){
-            throw new Exception("Game file not existing");
+            throw new Exception("Game file does not exist");
         }
         FileStream file = File.Open(Application.persistentDataPath + "/gameInfo.dat", FileMode.Open);
         PlayerData playerData = (PlayerData) bf.Deserialize(file);
@@ -82,10 +83,7 @@ public class GameController : MonoBehaviour {
         attack = playerData.attack;
         defense = playerData.defense;
         health = playerData.health;
-        
     }
-    
-
 }
 [Serializable]
 class PlayerData {
